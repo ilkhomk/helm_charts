@@ -17,10 +17,8 @@ controller:
     https: 443
 
   # Will add custom configuration options to Nginx https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/
-  config: 
+  config: false
     # use-proxy-protocol: "true"
-    use-forwarded-headers: "true"
-    forwarded-for-header: "X-Forwarded-For"
     # compute-full-forwarded-for: "true"
 
   # Will add custom headers before sending traffic to backends according to https://github.com/kubernetes/ingress-nginx/tree/master/docs/examples/customization/custom-headers
