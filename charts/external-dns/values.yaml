@@ -75,8 +75,8 @@ aws:
   ## AWS credentials
   ##
   credentials:
-    secretKey: "$$$"
-    accessKey: "$$$"
+    secretKey: ""
+    accessKey: ""
     ## pre external-dns 0.5.9 home dir should be `/root/.aws`
     ##
     mountPath: "/.aws"
