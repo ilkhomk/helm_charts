@@ -238,7 +238,7 @@ digitalocean:
 google:
   ## Google Project to use
   ##
-  project: "${google_project}"
+  project: "formal-vortex-284123"
   ## Google Application Credentials
   ##
   serviceAccountSecret: "google-service-account"
