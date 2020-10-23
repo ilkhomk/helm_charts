@@ -42,7 +42,7 @@ sources:
 ## DNS provider where the DNS records will be created. Available providers are:
 ## - aws, azure, azure-private-dns, cloudflare, coredns, designate, digitalocean, google, infoblox, rfc2136, transip
 ##
-provider: aws
+provider: google
 
 ## Flags related to processing sources
 ## ref: https://github.com/kubernetes-sigs/external-dns/blob/master/pkg/apis/externaldns/types.go#L272
@@ -238,10 +238,10 @@ digitalocean:
 google:
   ## Google Project to use
   ##
-  project: "formal-vortex-284123"
+  project: "${google_project}"
   ## Google Application Credentials
   ##
-  serviceAccountSecret: ""
+  serviceAccountSecret: "google-service-account"
 
   # serviceAccountKey: "common-service-account.json"
   ## Google configuration to be set via arguments/env. variables
