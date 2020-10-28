@@ -23,7 +23,7 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: hello-eks.kellysalrin.com
+    - host: hello-eks.yourdomain.com
       paths:
       - /
 
