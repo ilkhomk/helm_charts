@@ -1,0 +1,76 @@
+# Default values for waypoint.
+## Waypoint helm chart created by FuchiCorp DevOps engineers
+## If you are facing issues please feel free to submit the ticket 
+## https://github.com/fuchicorp/helm_charts/issues/new
+
+image:
+  repository: hashicorp/waypoint
+  tag: latest
+  pullPolicy: IfNotPresent
+  
+
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 80
+
+waypointGrpc:
+  ingress:
+    enabled: false
+    annotations: 
+      # kubernetes.io/ingress.class: nginx
+      # cert-manager.io/cluster-issuer: letsencrypt-prod
+      # nginx.ingress.kubernetes.io/backend-protocol: GRPCS ## required for waypoint server
+      # nginx.ingress.kubernetes.io/ssl-passthrough: "true" ## required for waypoint server
+      # nginx.ingress.kubernetes.io/ssl-redirect: "true"    ## required for waypoint server
+    hosts:
+      - host: waypoint-grpc.cluster.local
+        paths:
+        - '/'
+    tls:
+    - secretName: waypoint-grpc-tls
+      hosts:
+        - waypoint-grpc.cluster.local
+
+waypointServer:
+  ingress:
+    enabled: false
+    annotations: 
+      # cert-manager.io/cluster-issuer: letsencrypt-prod
+      # kubernetes.io/ingress.class: nginx
+      # nginx.ingress.kubernetes.io/backend-protocol: HTTPS ## required for waypoint server
+      # nginx.ingress.kubernetes.io/ssl-passthrough: "true" ## required for waypoint server
+      # nginx.ingress.kubernetes.io/ssl-redirect: "true"    ## required for waypoint server
+    hosts:
+      - host: waypoint.cluster.local
+        paths:
+        - '/'
+
+    tls:
+    - secretName: waypoint-tls
+      hosts:
+        - waypoint.cluster.local
+  securityContext: 
+    fsGroup: 1000
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

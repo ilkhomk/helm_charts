@@ -3,7 +3,7 @@ entries:
   artemis:
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-11-18T19:57:06.88329-06:00"
+    created: "2020-11-18T20:07:35.805419-06:00"
     description: A Helm chart for Kubernetes
     digest: 71e255f6877ffe62a849638304a81588850314334c8f7c2842025e7f2e8258d7
     name: artemis
@@ -13,7 +13,7 @@ entries:
   consul:
   - apiVersion: v1
     appVersion: 1.5.3
-    created: "2020-11-18T19:57:06.884875-06:00"
+    created: "2020-11-18T20:07:35.806938-06:00"
     description: Highly available and distributed service discovery and key-value
       store designed with support for the modern data center to make distributed systems
       and configuration easy.
@@ -32,7 +32,7 @@ entries:
   elasticsearch:
   - apiVersion: v1
     appVersion: 7.8.0
-    created: "2020-11-18T19:57:06.887473-06:00"
+    created: "2020-11-18T20:07:35.810252-06:00"
     description: Official Elastic helm chart for Elasticsearch
     digest: a33e756cd7f764f4134ea7a9868084540164dd1cabf570413d0ad0ec07b5408c
     home: https://github.com/elastic/helm-charts
@@ -49,7 +49,7 @@ entries:
   filebeat:
   - apiVersion: v1
     appVersion: 7.8.0
-    created: "2020-11-18T19:57:06.890543-06:00"
+    created: "2020-11-18T20:07:35.811687-06:00"
     description: Official Elastic helm chart for Filebeat
     digest: 0ce8e3488b8ceb55be51554b4482c478eb9d84718eded65d409a0f86c72fc553
     home: https://github.com/elastic/helm-charts
@@ -66,7 +66,7 @@ entries:
   jenkins:
   - apiVersion: v1
     appVersion: lts
-    created: "2020-11-18T19:57:06.892693-06:00"
+    created: "2020-11-18T20:07:35.814341-06:00"
     description: Open source continuous integration server. It supports multiple SCM
       tools including CVS, Subversion and Git. It can execute Apache Ant and Apache
       Maven-based projects as well as arbitrary scripts.
@@ -96,7 +96,7 @@ entries:
   kibana:
   - apiVersion: v1
     appVersion: 7.7.0
-    created: "2020-11-18T19:57:06.893977-06:00"
+    created: "2020-11-18T20:07:35.815675-06:00"
     description: Official Elastic helm chart for Kibana
     digest: fa37473eb5b46523604717e92cb7aa35ebf6debfa8d0032e28ed153354216912
     home: https://github.com/elastic/helm-charts
@@ -113,7 +113,7 @@ entries:
   metallb:
   - apiVersion: v1
     appVersion: 0.8.1
-    created: "2020-11-18T19:57:06.894997-06:00"
+    created: "2020-11-18T20:07:35.817014-06:00"
     description: MetalLB is a load-balancer implementation for bare metal Kubernetes
       clusters
     digest: 6e6f74ec5b91e692a9c0d05fea3e03cd0c1f10b25e51b3ae5a2ff3aa7966084f
@@ -137,7 +137,7 @@ entries:
   metrics-server:
   - apiVersion: v1
     appVersion: 0.3.6
-    created: "2020-11-18T19:57:06.895574-06:00"
+    created: "2020-11-18T20:07:35.818027-06:00"
     description: Metrics Server is a cluster-wide aggregator of resource usage data.
     digest: 16726901500726ad0e86ae25a22c3c32ec818e16753af35f462f2c4942db10f3
     home: https://github.com/kubernetes-incubator/metrics-server
@@ -157,7 +157,7 @@ entries:
   nexus:
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-11-18T19:57:06.896282-06:00"
+    created: "2020-11-18T20:07:35.818648-06:00"
     description: A Helm chart for Kubernetes
     digest: c2d18abd2865cc01ef1e82dea07cf8517f4f74e0850f232f08b2f90a8dd6ac1c
     name: nexus
@@ -167,7 +167,7 @@ entries:
   nfs-client-provisioner:
   - apiVersion: v1
     appVersion: 3.1.0
-    created: "2020-11-18T19:57:06.897498-06:00"
+    created: "2020-11-18T20:07:35.819781-06:00"
     description: nfs-client is an automatic provisioner that used your *already configured*
       NFS server, automatically creating Persistent Volumes.
     digest: b14e573fd7e579045afa5fbeb30c0876a101ef515d4042c83f722f51373490da
@@ -187,7 +187,7 @@ entries:
   nginx-ingress:
   - apiVersion: v1
     appVersion: 0.26.2
-    created: "2020-11-18T19:57:06.901312-06:00"
+    created: "2020-11-18T20:07:35.821927-06:00"
     description: An nginx Ingress controller that uses ConfigMap to store the nginx
       configuration.
     digest: 44eb8121537f774f68f59fd1c231bacbfb8ad5a025a055747eb162459e4ebfa7
@@ -211,7 +211,7 @@ entries:
   prometheus:
   - apiVersion: v1
     appVersion: 2.15.2
-    created: "2020-11-18T19:57:06.904478-06:00"
+    created: "2020-11-18T20:07:35.825154-06:00"
     description: Prometheus is a monitoring system and time series database.
     digest: ab4c58fdd5dc91eebd03d5795b7f7fe62fcacdc364da61b50e8d2477a9c46eed
     engine: gotpl
@@ -234,11 +234,11 @@ entries:
   waypoint:
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-11-18T19:57:06.905125-06:00"
+    created: "2020-11-18T20:07:35.825787-06:00"
     description: A Helm chart for Kubernetes
     digest: ed917944c5e55870482fa7a8e8b1e9b840a75b528d6bb83aaed084c4c465b677
     name: waypoint
     urls:
     - https://fuchicorp.github.io/helm_charts/waypoint-0.1.0.tgz
     version: 0.1.0
-generated: "2020-11-18T19:57:06.881977-06:00"
+generated: "2020-11-18T20:07:35.804419-06:00"
