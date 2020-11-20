@@ -3,7 +3,7 @@
 ## Prerequisites Details
 * Kubernetes 
 * PV support on underlying infrastructure
-* Waypoint CLI v0.1.4+  [Click here to view Waypoint CLI installation documentation ](https://learn.hashicorp.com/tutorials/waypoint/get-started-install?in=waypoint/get-started-kubernetes)  
+* Waypoint CLI v0.1.4+ [Click here to view Waypoint CLI installation documentation ](https://learn.hashicorp.com/tutorials/waypoint/get-started-install?in=waypoint/get-started-kubernetes)  
 
 ## StatefulSet Details
 * http://kubernetes.io/docs/concepts/abstractions/controllers/statefulsets/
@@ -11,50 +11,77 @@
 ## Chart Details
 This chart will do the following:
 
-* Deploy the Hashicorp Waypoint server using Kubernetes StatefulSet, a service, PVC and two ingresses that will configure communication between the Waypoint Server and the Waypoint CLI.  
+* Deploy the Hashicorp Waypoint server using Kubernetes StatefulSet and configure communication between the Waypoint Server and the Waypoint CLI.  
 
-## Add the Fuchicorp repo
-```
-$ 
+## Chart Installation
+To get started add our repository 
+```bash
+$  helm repo add fuchicorp https://fuchicorp.github.io/helm_charts
+$  helm update
 ```
 
-## Installing the Chart
+## Install our Chart directly with no custom configurations
+By default this chart will install the Waypoint server with a Loadbalancer which is the default for the Waypoint install.  If you would like to use a ClusterIP please see below for further customization of the helm chart
 
 To install the chart with the release name `waypoint`:
 
 ```bash
 $ helm install --name waypoint fuchicorp/waypoint
 ```
-or
-```
-$ helm install waypoint fuchicorp/waypoint --set global.name=waypoint ??
-```
-- Please follow the further command instructions given after the helm chart has been successfully deployed.  These steps help to bootstrap the server, retrieve your token and create the context communication between the cli and server. Once all commands have been completed the server will be ready to work with the cli and pull all your important build, deloyment and release information.  
+## Fetch the Waypoint chart and customize
 
-## Fetch the Chart
+```bash
+$ helm fetch fuchicorp/waypoint --untar
 ```
-$ helm fetch --untar fuchicorp/waypoint
-```
+
 ## Configurations of the Waypoint helm chart
-### - Annotations <br>
+ Parameter               | Description                           | Default                                                    |
+| ----------------------- | ----------------------------------    | ---------------------------------------------------------- |
+| `Name`                  | Waypoint statefulset name               | `waypoint`                                                   |
+| `Image`                 | Container image name                  | `hashicorp/waypoint`                                                   |
+| `ImageTag`              | Container image tag                   | `0.1.5`                                                    |
+| `ImagePullPolicy`       | Container pull policy                 | `IfNotPresent`                                                   |
+| `Replicas`              | k8s statefulset replicas              | `1`                                                        |
+| `securityContext`       | set fsGroup                           | `1000`                                                     |
+| `nameOverride`                    | Override the resource name prefix    | `waypoint`                                 |
+| `fullnameOverride`                | Override the full resource names     | `waypoint-{release-name}` (or `waypont` if release-name 
+| `waypointGrpc.Ingress.enabled`     | Create Ingress for Waypoint CLI (grpc)      | `true`                                                    |
+| `waypointGrpc.Ingress.annotations` | Associate annotations to the Ingress  | `{}`                                                       |
+| `waypointGrpc.Ingress.labels`      | Associate labels to the Ingress       | `{}`                                                       |
+| `waypointGrpc.Ingress.hosts`       | Associate hosts with the Ingress      | `[]`                                                       |
+| `waypointGrpc.Ingress.path`        | Associate TLS with the Ingress        | `/`                                                        |
+| `waypointGrpc.Ingress.tls`         | Associate path with the Ingress       | `[]`                                                       |
+| `waypointServer.Ingress.enabled`     | Create Ingress for Waypoint UI (https)      | `true`                                                    |
+| `waypointServer.Ingress.annotations` | Associate annotations to the Ingress  | `{}`                                                       |
+| `waypointServer.Ingress.labels`      | Associate labels to the Ingress       | `{}`                                                       |
+| `waypointServer.Ingress.hosts`       | Associate hosts with the Ingress      | `[]`                                                       |
+| `waypointServer.Ingress.path`        | Associate TLS with the Ingress        | `/`                                                        |
+| `waypointServer.Ingress.tls`         | Associate path with the Ingress       | `[]`                                                       |
+| `Resources`             | Container resource requests and limits| `{}`                                                       |
+| `nodeSelector`          | Node labels for pod assignment        | `{}`                                                       |
+| `affinity`              | Affinity settings                    | `{}`                                               |
+| `tolerations`           | Tolerations for pod assignment        | `[]`                                                       |
+
+
+### - Ingress Annotations <br>
 Important to note that currently Waypoint has a TLS limitation [click here to read more](https://www.waypointproject.io/docs/server/run/production). We have configured this chart with the suggested work around suggest by Waypoint. With the help of the ingress-controller (nginx in this case) both ingress annotations must be configured to terminate the TLS with your desired TLS certificate. The backend connection must use the self-signed TLS connection to the Waypoint server. This is accomplished by activating the following annotations for each ingress. 
-   - **GRPC** <br>
+   - **waypointGrpc annotations** <br>
        nginx.ingress.kubernetes.io/ssl-passthrough: "true"
        nginx.ingress.kubernetes.io/ssl-redirect: "true"    
        nginx.ingress.kubernetes.io/backend-protocol: GRPCS <br>
-   - **HTTPS** <br>
+   - **waypointServer annotations** <br>
        nginx.ingress.kubernetes.io/ssl-passthrough: "true"
        nginx.ingress.kubernetes.io/ssl-redirect: "true"  
        nginx.ingress.kubernetes.io/backend-protocol: HTTPS
 
 ### - Hosts 
-  - **GRPC** <br>
+  - **waypointGrpc** <br>
 Add your domain name for GRPC to use.  We suggest waypoint-grpc-yourdomain.com.  This will help to define the difference between the grpc and https domains.
-   - **HTTPS** <br>
+   - **waypointServer** <br>
        Add your domain name for HTTPS to use.  We suggest "waypoint-yourdomain.com". This address will bring you to the Waypoint UI login screen. 
 
 ### - TLS
-  - Both the GRPC and HTTPS require tls certs. If you have a cert-manager completing these requests, please ensure to add that annotation for both ingress mentions. 
+  - Both the waypointGrpc and waypointServer require tls certs. If you have a cert-manager completing these requests, please ensure to add that annotation for both ingress mentions. 
 
 ## Ports used by Waypoint
 Waypoint requires two different ports:
@@ -72,7 +99,20 @@ gRPC is a remote procedure call protocol, used for communication between client 
 ## Hello-world App Testing
 Now that you have your waypoint server up and running you can now test this tool with our hello-world application. We have created a simple docker build and kubernetes deployment of the hello world app utilizing the waypoint.hcl file. You can navigate here and clone this repository.  We also have a wiki and README with detailed instructions on how to deploy along with other great information and resources links about the waypoint.hcl configuration options.
 
+## Installing the custom chart
+
+To install the chart with the release name `waypoint`:
+
+```bash
+$ helm install --name waypoint fuchicorp/waypoint
+```
+- Please follow the further command instructions given after the helm chart has been successfully deployed.  These steps help to bootstrap the server, retrieve your token and create the context communication between the cli and server. Once all commands have been completed the server will be ready to work with the cli and pull all your important build, deloyment and release information.  
+
 ## Delete the Chart
 ```
 $ helm delete --purge waypoint 
+```
+Storage pvc will not get deleted, to delete storage persistent volume claim, run:
+```
+$  kubectl delete pvc data-waypoint-server-0 
 ```
