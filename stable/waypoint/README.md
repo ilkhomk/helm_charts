@@ -45,6 +45,8 @@ $ helm fetch fuchicorp/waypoint --untar
 | `securityContext`       | set fsGroup                           | `1000`                                                     |
 | `nameOverride`                    | Override the resource name prefix    | `waypoint`                                 |
 | `fullnameOverride`                | Override the full resource names     | `waypoint-{release-name}` (or `waypont` if release-name 
+| `service.type`        | Configures the service type       | `LoadBalancer` or `ClusterIP`                                                |
+| `service.port`        | Configures the service port  | `80`                                                |
 | `waypointGrpc.Ingress.enabled`     | Create Ingress for Waypoint CLI (grpc)      | `true`                                                    |
 | `waypointGrpc.Ingress.annotations` | Associate annotations to the Ingress  | `{}`                                                       |
 | `waypointGrpc.Ingress.labels`      | Associate labels to the Ingress       | `{}`                                                       |
