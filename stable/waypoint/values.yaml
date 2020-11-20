@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: hashicorp/waypoint
-  tag: latest
+  tag: 0.1.5
   pullPolicy: IfNotPresent
   
 securityContext: 
