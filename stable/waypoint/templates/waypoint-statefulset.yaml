@@ -5,7 +5,6 @@ metadata:
 {{ include "waypoint.labels" . | indent 4 }}
   name: {{ include "waypoint.fullname" . }}
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "waypoint.name" . }}
@@ -55,7 +54,7 @@ spec:
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       securityContext:
-        {{- toYaml .Values.securityContext | nindent 8 }}
+        {{- toYaml .Values.waypointServer.securityContext | nindent 8 }}
   volumeClaimTemplates:
   - metadata:
       name: data

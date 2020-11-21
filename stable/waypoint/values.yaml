@@ -1,61 +1,63 @@
 # Default values for waypoint.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
-replicaCount: 1
+## Waypoint helm chart created by FuchiCorp DevOps engineers
+## If you are facing issues please feel free to submit the ticket 
+## https://github.com/fuchicorp/helm_charts/issues/new
 
 image:
   repository: hashicorp/waypoint
-  tag: 0.1.5
+  tag: latest
   pullPolicy: IfNotPresent
   
-securityContext: 
-  fsGroup: 1000
+
 
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
 service:
-  type: ClusterIP
-  port: 80
+  type: LoadBalancer
+  waypointGrpcPort: 9701
+  waypointServerPort: 9702
+  
 
 waypointGrpc:
-  ingress:   
-    enabled: true
+  ingress:
+    enabled: false
     annotations: 
-      kubernetes.io/ingress.class: nginx
-      cert-manager.io/cluster-issuer: letsencrypt-prod
-      nginx.ingress.kubernetes.io/backend-protocol: GRPCS
-      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      # kubernetes.io/ingress.class: nginx
+      # cert-manager.io/cluster-issuer: letsencrypt-prod
+      # nginx.ingress.kubernetes.io/backend-protocol: GRPCS ## required for waypoint server
+      # nginx.ingress.kubernetes.io/ssl-passthrough: "true" ## required for waypoint server
+      # nginx.ingress.kubernetes.io/ssl-redirect: "true"    ## required for waypoint server
     hosts:
-      - host: waypoint-grpc.fuchicorp.com
+      - host: waypoint-grpc.cluster.local
         paths:
         - '/'
     tls:
     - secretName: waypoint-grpc-tls
       hosts:
-        - waypoint-grpc.fuchicorp.com
+        - waypoint-grpc.cluster.local
 
 waypointServer:
   ingress:
-    enabled: true
+    enabled: false
     annotations: 
-      cert-manager.io/cluster-issuer: letsencrypt-prod
-      kubernetes.io/ingress.class: nginx
-      nginx.ingress.kubernetes.io/backend-protocol: HTTPS
-      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      # cert-manager.io/cluster-issuer: letsencrypt-prod
+      # kubernetes.io/ingress.class: nginx
+      # nginx.ingress.kubernetes.io/backend-protocol: HTTPS ## required for waypoint server
+      # nginx.ingress.kubernetes.io/ssl-passthrough: "true" ## required for waypoint server
+      # nginx.ingress.kubernetes.io/ssl-redirect: "true"    ## required for waypoint server
     hosts:
-      - host: waypoint.fuchicorp.com
+      - host: waypoint.cluster.local
         paths:
         - '/'
 
     tls:
     - secretName: waypoint-tls
       hosts:
-        - waypoint.fuchicorp.com
+        - waypoint.cluster.local
+  securityContext: 
+    fsGroup: 1000
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
