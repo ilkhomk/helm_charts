@@ -81,14 +81,14 @@ $ helm fetch fuchicorp/waypoint --untar
 | `tolerations`           | Tolerations for pod assignment        | `[]`                                                       |
 
 ## Configuring Service 
-  - **Loadbalancer** 
+  - **LoadBalancer** 
 ```
 service:
   type: LoadBalancer
   waypointGrpcPort: 9701
   waypointServerPort: 9702
   ```
-  - **Cluster IP** 
+  - **ClusterIP** 
 ```
 service:
   type: ClusterIP
