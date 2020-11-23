@@ -129,7 +129,7 @@ gRPC is a remote procedure call protocol, used for communication between client 
 [Please click here for more detail information on gRPC](https://www.nginx.com/blog/nginx-1-13-10-grpc/)
 
 ## Hello-world App Testing
-Now that you have your waypoint server up and running you can now test this tool with our hello-world application. We have created a simple docker build and kubernetes deployment of the hello world app utilizing the waypoint.hcl file. You can navigate here and clone this repository.  We also have a wiki and README with detailed instructions on how to deploy along with other great information and resources links about the waypoint.hcl configuration options.
+Now that you have your waypoint server up and running you can now test this tool with our hello-world application. We have created a simple docker build and kubernetes deployment of the hello world app utilizing the waypoint.hcl file. You can navigate in the Fuchicorp repository to [helm_charts/examples/waypoint/hello-world-demo](https://github.com/fuchicorp/helm_charts/tree/feature/%232/examples/waypoint/hello-world-demo).  We have a README file with detailed instructions on how to deploy along with other great information and resources links about the waypoint.hcl configuration options.
 
 ## Installing the custom chart
 
