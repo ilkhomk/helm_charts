@@ -104,8 +104,6 @@ Important to note that currently Waypoint has a TLS limitation [click here to re
        nginx.ingress.kubernetes.io/backend-protocol: GRPCS <br>
 
    - **waypointServer annotations** <br>
-       nginx.ingress.kubernetes.io/ssl-passthrough: "true" <br>
-       nginx.ingress.kubernetes.io/ssl-redirect: "true" <br>
        nginx.ingress.kubernetes.io/backend-protocol: HTTPS 
 
 ### Hosts 
