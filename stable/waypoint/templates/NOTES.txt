@@ -21,9 +21,24 @@
   {{- end }}
 {{- end }}
 {{- else if contains "NodePort" .Values.service.type }}
-  export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ include "waypoint.fullname" . }})
+  ## Getting the node port
+  export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[1].nodePort}" services {{ include "waypoint.fullname" . }})
+
+  ## Getting the first nodes IP address 
   export NODE_IP=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")
-  echo http://$NODE_IP:$NODE_PORT
+
+  ## Use following up to bootstrap the Waypoint server 
+  export WAYPOINT_INIT_TOKEN=$(waypoint server bootstrap -server-addr="$NODE_IP:$NODE_PORT" -server-tls-skip-verify)
+    NOTE: NodePort is not tested you will need to open the port and make sure you have the port open on all your instances
+
+  ## Set your waypointcli context
+  waypoint context create -server-addr="$NODE_IP:$NODE_PORT" -server-auth-token="$WAYPOINT_INIT_TOKEN" -server-tls -server-tls-skip-verify -set-default k8s-server
+
+  ## Verifying the context 
+  waypoint context verify k8s-server
+
+  ## By clicking this url you should be able to access UI 
+  echo https://$NODE_IP:$NODE_PORT
 {{- else if contains "LoadBalancer" .Values.service.type }}
      NOTE: It may take a few minutes for the LoadBalancer IP to be available.
            You can watch the status of by running 'kubectl get --namespace {{ .Release.Namespace }} svc -w {{ include "waypoint.fullname" . }}'
