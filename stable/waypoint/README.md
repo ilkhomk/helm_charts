@@ -107,6 +107,14 @@ service:
   waypointGrpcPort: 443
   waypointServerPort: 80
 ```
+  - **NodePort** 
+```
+service:
+  type: NodePort
+  waypointGrpcPort: 9701
+  waypointServerPort: 9702
+```
+Please note, you will need to allow access for these ports via your firewall or security group.  We have provided the suggested commands for bootstrapping,context and verify but the NodPort is not fully tested. 
 
 ## Enable Ingresses (ClusterIP)
 Important to note that currently Waypoint has a TLS limitation [click here to read more](https://www.waypointproject.io/docs/server/run/production). We have configured this chart with the suggested work around given by Waypoint. With the help of the ingress-controller (nginx in this case) both ingress annotations must be configured to terminate the TLS with your desired TLS certificate. The backend connection must use the self-signed TLS connection to the Waypoint server. This is accomplished by activating the following annotations for each ingress. 
