@@ -4,6 +4,7 @@
 * Kubernetes 
 * PV support on underlying infrastructure
 * Waypoint CLI v0.1.4+ [Click here to view Waypoint CLI installation documentation ](https://learn.hashicorp.com/tutorials/waypoint/get-started-install?in=waypoint/get-started-kubernetes)  
+* TLS certificates or a way to provision them
 
 ## StatefulSet Details
 * http://kubernetes.io/docs/concepts/abstractions/controllers/statefulsets/
@@ -17,11 +18,10 @@ This chart will do the following:
 To get started add our repository 
 ```bash
 $  helm repo add fuchicorp https://fuchicorp.github.io/helm_charts
-$  helm update
 ```
 
-## Install Waypoint chart directly with no custom configurations
-This chart will install the Waypoint server with a Loadbalancer which is the default for the Waypoint install.  If you would like to use a ClusterIP or NodePort, please see below for further information on customizing this helm chart. 
+## Install Waypoint chart 
+This chart will install the Waypoint server as a Loadbalancer which is the default for the Waypoint install.  If you would like to use a ClusterIP or NodePort, please see below for further information on customizing this helm chart. 
 
 To install the chart with the release name `waypoint`:
 
@@ -34,11 +34,6 @@ cd /helm_charts/stable/
 $ helm install --name waypoint ./waypoint --namespace tools
 ```
 
-## Without installing
-```bash
-$ helm install --name waypoint --debug --dry-run ./waypoint
-```
-
 ## Upgrading chart, after changing values in values.yaml
 ```bash
 $ helm upgrade waypoint ./waypoint
@@ -48,6 +43,16 @@ $ helm upgrade waypoint ./waypoint
 ```bash
 $ helm fetch fuchicorp/waypoint --untar
 ```
+
+## Installing the custom chart
+
+To install the chart with the release name `waypoint`:
+
+```bash
+$ helm install --name waypoint fuchicorp/waypoint
+```
+## After Install Instructions
+Once you have installed your chart you will see that we have populated the bootstrapping, context and verify commands for you. You can copy and paste these into your prompt to complete the process quickly. 
 
 ## Configurations of the Waypoint helm chart
  Parameter               | Description                           | Default                                                    |
@@ -81,6 +86,13 @@ $ helm fetch fuchicorp/waypoint --untar
 | `tolerations`           | Tolerations for pod assignment        | `[]`                                                       |
 
 ## Configuring Service 
+Waypoint uses two different ports, gRPC is required but you can disable the web UI if you would like. Of course, you won't really need to use this chart if that is the case. <br>
+- **HTTP API (Default 9702, TCP)** - This is used to serve the web UI and the web UI API client. If the web UI is not used, this port can be blocked or disabled. <br>
+- **gRPC API (Default 9701, TCP)** - This is used for the gRPC API. This is consumed by the CLI, Entrypoint, and Runners. This port must be reachable by all deployments using the Entrypoint. <br> <br>
+Both of these ports require TCP, but the connections are always TLS protected. Non-TLS connections are not allowed on either port. 
+[Please click for further information on Waypoint Server in Production](https://www.waypointproject.io/docs/server/run/production) <br>
+
+### **Examples below are of the service type and ports associated:**
   - **LoadBalancer** 
 ```
 service:
@@ -92,20 +104,31 @@ service:
 ```
 service:
   type: ClusterIP
-  port: 80
+  waypointGrpcPort: 443
+  waypointServerPort: 80
 ```
 
 ## Enable Ingresses (ClusterIP)
 Important to note that currently Waypoint has a TLS limitation [click here to read more](https://www.waypointproject.io/docs/server/run/production). We have configured this chart with the suggested work around given by Waypoint. With the help of the ingress-controller (nginx in this case) both ingress annotations must be configured to terminate the TLS with your desired TLS certificate. The backend connection must use the self-signed TLS connection to the Waypoint server. This is accomplished by activating the following annotations for each ingress. 
 ### Annotations <br>   
   - **waypointGrpc annotations** <br>
-       nginx.ingress.kubernetes.io/ssl-passthrough: "true" <br>
-       nginx.ingress.kubernetes.io/ssl-redirect: "true"   <br> 
-       nginx.ingress.kubernetes.io/backend-protocol: GRPCS <br>
+```       
+nginx.ingress.kubernetes.io/ssl-passthrough: "true" <br>
+nginx.ingress.kubernetes.io/ssl-redirect: "true"   <br> 
+nginx.ingress.kubernetes.io/backend-protocol: GRPCS <br>
+```
 
    - **waypointServer annotations** <br>
-       nginx.ingress.kubernetes.io/backend-protocol: HTTPS 
+```
+ nginx.ingress.kubernetes.io/backend-protocol: HTTPS 
+```
 
+- **nginx.ingress.kubernetes.io/ssl-passthrough** instructs the controller to send TLS connections directly to the backend instead of letting NGINX decrypt the communication.
+- **nginx.ingress.kubernetes.io/ssl-redirect** will enforce a redirect to HTTPS even when there is no TLS certificate available.
+- **nginx.ingress.kubernetes.io/backend-protocol** indicates how NGINX should communicate with the backend service. <br>
+_Valid Values: HTTP, HTTPS, GRPC, GRPCS, AJP and FCGI._ <br>
+[Here is a list of all possible nginx ingress-controller annotations.](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/) <br>
+If you are using a cert-manager to complete your TLS requests, please ensure to add that annotation for both ingresses.
 ### Hosts 
   - **waypointGrpc** <br>
 Add your domain name for GRPC to use.  We suggest "waypoint-grpc.cluster.local".  This will help to define the difference between the grpc and https domains.
@@ -115,32 +138,48 @@ Add your domain name for GRPC to use.  We suggest "waypoint-grpc.cluster.local".
 ### TLS
   - Both the waypointGrpc and waypointServer require tls certs. If you have a cert-manager completing these requests, please ensure to add that annotation for both ingress mentions. 
 
-## Ports used by Waypoint
-Waypoint requires two different ports:
+## Bootstrapping, Context and Verify
+Once you have installed this chart you will see that we have populated the bootstrapping, context and verify commands for you. You can copy and paste these into your prompt to complete the process quickly. Below is further information about why we need to run these commands and where you can find other Waypoint options.<br>
+### Bootstrapping
+We will need to bootstrap the server to be able to receive the initial token. The waypoint token new command will not work until you have bootstrapped.
+We will also specify the server address and the server-tls-skip-verify within this command.
+-**server-tls** - If true, will connect to the server over TLS.
+-**server-tls-skip-verify** - If true, will not validate TLS cert presented by the server.
 
-- HTTP API (Default 9702, TCP) - This is used to serve the web UI and the web UI API client. If the web UI is not used, this port can be blocked or disabled.
+Both of these are important because we are terminating the TLS cert the server generates automatically on start up and are providing our own.
+```
+waypoint server bootstrap -server-addr=waypoint-grpc.yourdomain.com:443 -server-tls-skip-verify
+```
+[Click here to see more command options available.](https://www.waypointproject.io/commands/server-run)
 
-- gRPC API (Default 9701, TCP) - This is used for the gRPC API. This is consumed by the CLI, Entrypoint, and Runners. This port must be reachable by all deployments using the Entrypoint.
+### Context
+Now that the token has been generated from the bootstrap, you can create your context. For the context you will need your server address, token, and a chosen context name.  In the example below, we have named our context "k8s-server" but you can name your context whatever you would like. 
+You will see the additions of server-tls, server-tls-skip-verfiy in this command as well. 
+```
+waypoint context create -server-addr=waypoint-grpc.yourdomain.com:443 -server-auth-token="put_your_token_here" -server-tls -server-tls-skip-verify -set-default k8s-server
+```
+[Click here to see more command options available for context.](https://www.waypointproject.io/commands/context-create)
 
-Both of these ports require TCP, but the connections are always TLS protected. Non-TLS connections are not allowed on either port. Please click here to link to further information on these ports [Waypoint Server in Production](https://www.waypointproject.io/docs/server/run/production)
-
-## What is GRPC 
-gRPC is a remote procedure call protocol, used for communication between client and server applications. It is designed to be compact (space‑efficient) and portable across multiple languages, and it supports both request‑response and streaming interactions. The protocol is gaining popularity, including in service mesh implementations, because of its widespread language support and simple user‑facing design is currently utilized for the Hashicorp Waypoint tool.  
-[Please click here for more detail information on gRPC](https://www.nginx.com/blog/nginx-1-13-10-grpc/)
+### Verify
+This is an easy one! You are just verifying that you can able to connect the CLI to the server with the context you setup. Please list the context name you create in the earlier step, as you can see, we used the "k8s-server".
+```
+ waypoint context verify k8s-server
+```
+### Waypoint Server Address
+We also provide a copy of your url address of the Waypoint server. Copy and paste into your browser and you should see the welcome screen. To grab your token to authenticate, run the following command below. Copy and paste the token text into the UI and you should be able to login.
+```
+echo $WAYPOINT_INIT_TOKEN
+```
 
 ## Hello-world App Testing
 Now that you have your waypoint server up and running you can now test this tool with our hello-world application. We have created a simple docker build and kubernetes deployment of the hello world app utilizing the waypoint.hcl file. You can navigate in the Fuchicorp repository to [helm_charts/examples/waypoint/hello-world-demo](https://github.com/fuchicorp/helm_charts/tree/feature/%232/examples/waypoint/hello-world-demo).  We have a README file with detailed instructions on how to deploy along with other great information and resources links about the waypoint.hcl configuration options.
 
-## Installing the custom chart
-
-To install the chart with the release name `waypoint`:
-
-```bash
-$ helm install --name waypoint fuchicorp/waypoint
-```
-- Please follow the further command instructions given after the helm chart has been successfully deployed.  These steps help to bootstrap the server, retrieve your token and create the context communication between the cli and server. Once all commands have been completed the server will be ready to work with the cli and pull all your important build, deployment and release information.  
 
 ## Delete the Chart
 ```
 $ helm delete --purge waypoint 
+```
+Storage pvc will not get deleted, to delete storage persistent volume claim, run:
+```
+$ kubectl delete pvc data-waypoint-0
 ```
