@@ -45,6 +45,7 @@ waypointServer:
       # cert-manager.io/cluster-issuer: letsencrypt-prod
       # kubernetes.io/ingress.class: nginx
       # nginx.ingress.kubernetes.io/backend-protocol: HTTPS ## required for waypoint server
+      # nginx.ingress.kubernetes.io/proxy-http-version: "1.0" ## required for waypoint server
 
     hosts:
       - host: waypoint.cluster.local

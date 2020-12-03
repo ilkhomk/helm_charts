@@ -3,10 +3,7 @@
 {{- range $host := .Values.waypointGrpc.ingress.hosts }}
 
   ## To get your token run following command
-  export WAYPOINT_INIT_TOKEN=$(waypoint server bootstrap -server-addr="{{ $host.host }}:443" -server-tls-skip-verify)
-
-  ## Then please run following command to set your context
-  waypoint context create -server-addr="{{ $host.host }}:443" -server-auth-token="$WAYPOINT_INIT_TOKEN" -server-tls -server-tls-skip-verify -set-default k8s-server
+  export WAYPOINT_INIT_TOKEN=$(waypoint server bootstrap -server-addr="{{ $host.host }}:443" -server-tls-skip-verify -context-create=k8s-server)
 
   ## Please verify your context by running command
   waypoint context verify k8s-server
@@ -28,11 +25,8 @@
   export NODE_IP=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")
 
   ## Use following up to bootstrap the Waypoint server 
-  export WAYPOINT_INIT_TOKEN=$(waypoint server bootstrap -server-addr="$NODE_IP:$NODE_PORT" -server-tls-skip-verify)
+  export WAYPOINT_INIT_TOKEN=$(waypoint server bootstrap -server-addr="$NODE_IP:$NODE_PORT" -server-tls-skip-verify -context-create=k8s-server)
     NOTE: NodePort is not tested you will need to open the port and make sure you have the port open on all your instances
-
-  ## Set your waypointcli context
-  waypoint context create -server-addr="$NODE_IP:$NODE_PORT" -server-auth-token="$WAYPOINT_INIT_TOKEN" -server-tls -server-tls-skip-verify -set-default k8s-server
 
   ## Verifying the context 
   waypoint context verify k8s-server
@@ -47,10 +41,7 @@
   export SERVICE_IP=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ include "waypoint.fullname" . }} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 
   ## Use following up to bootstrap the Waypoint server 
-  export WAYPOINT_INIT_TOKEN=$(waypoint server bootstrap -server-addr="$SERVICE_IP:{{ .Values.service.waypointGrpcPort }}" -server-tls-skip-verify)
-
-  ## Set your waypointcli context
-  waypoint context create -server-addr="$SERVICE_IP:{{ .Values.service.waypointGrpcPort }}" -server-auth-token="$WAYPOINT_INIT_TOKEN" -server-tls -server-tls-skip-verify -set-default k8s-server
+  export WAYPOINT_INIT_TOKEN=$(waypoint server bootstrap -server-addr="$SERVICE_IP:{{ .Values.service.waypointGrpcPort }}" -server-tls-skip-verify -context-create=k8s-server)
 
   ## Verifying the context 
   waypoint context verify k8s-server

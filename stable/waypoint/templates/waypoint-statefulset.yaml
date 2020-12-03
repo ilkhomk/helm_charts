@@ -25,6 +25,9 @@ spec:
         - -accept-tos
         - -listen-grpc=0.0.0.0:9701
         - -listen-http=0.0.0.0:9702
+        - -advertise-addr= {{ ?? }}:{{ .Values.service.waypointGrpcPort }}
+        - -advertise-tls=true
+        - -advertise-tls-skip-verify=true
         command:
         - waypoint
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}" 
