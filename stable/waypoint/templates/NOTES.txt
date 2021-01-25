@@ -7,6 +7,9 @@
 
   ## Please verify your context by running command
   waypoint context verify k8s-server
+
+  ## Retrieve token for inital authentication for server
+  echo $WAYPOINT_INIT_TOKEN
 {{- end }}
 {{- end }}
 
@@ -31,6 +34,9 @@
   ## Verifying the context 
   waypoint context verify k8s-server
 
+  ## Retrieve token for inital authentication for server
+  echo $WAYPOINT_INIT_TOKEN
+
   ## By clicking this url you should be able to access UI 
   echo https://$NODE_IP:$NODE_PORT
 {{- else if contains "LoadBalancer" .Values.service.type }}
@@ -45,6 +51,9 @@
 
   ## Verifying the context 
   waypoint context verify k8s-server
+
+  ## Retrieve token for inital authentication for server
+  echo $WAYPOINT_INIT_TOKEN
 
   ## By clicking this url you should be able to access UI 
   echo https://$SERVICE_IP:{{ .Values.service.waypointServerPort }}

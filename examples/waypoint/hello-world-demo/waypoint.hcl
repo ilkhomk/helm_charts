@@ -30,8 +30,7 @@ app "hello-world" {
    release {
       use "kubernetes" {
         namespace = "tools"
-        LoadBalancer = True
-        port = 5000
+        port = 443
      }
    }
   

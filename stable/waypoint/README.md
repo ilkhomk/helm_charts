@@ -129,12 +129,14 @@ nginx.ingress.kubernetes.io/backend-protocol: GRPCS <br>
    - **waypointServer annotations** <br>
 ```
  nginx.ingress.kubernetes.io/backend-protocol: HTTPS 
+ nginx.ingress.kubernetes.io/proxy-http-version: "1.0"
 ```
 
 - **nginx.ingress.kubernetes.io/ssl-passthrough** instructs the controller to send TLS connections directly to the backend instead of letting NGINX decrypt the communication.
 - **nginx.ingress.kubernetes.io/ssl-redirect** will enforce a redirect to HTTPS even when there is no TLS certificate available.
 - **nginx.ingress.kubernetes.io/backend-protocol** indicates how NGINX should communicate with the backend service. <br>
 _Valid Values: HTTP, HTTPS, GRPC, GRPCS, AJP and FCGI._ <br>
+- **nginx.ingress.kubernetes.io/proxy-http-version** Using this annotation sets the proxy_http_version that the Nginx reverse proxy will use to communicate with the backend. By default this is set to "1.1". <br>
 [Here is a list of all possible nginx ingress-controller annotations.](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/) <br>
 If you are using a cert-manager to complete your TLS requests, please ensure to add that annotation for both ingresses.
 ### Hosts 
@@ -150,22 +152,16 @@ Add your domain name for GRPC to use.  We suggest "waypoint-grpc.cluster.local".
 Once you have installed this chart you will see that we have populated the bootstrapping, context and verify commands for you. You can copy and paste these into your prompt to complete the process quickly. Below is further information about why we need to run these commands and where you can find other Waypoint options.<br>
 ### Bootstrapping
 We will need to bootstrap the server to be able to receive the initial token. The waypoint token new command will not work until you have bootstrapped.
-We will also specify the server address and the server-tls-skip-verify within this command.
+We will also specify the server address, the server-tls-skip-verify, and context name within this command.
 -**server-tls** - If true, will connect to the server over TLS.
 -**server-tls-skip-verify** - If true, will not validate TLS cert presented by the server.
-
-Both of these are important because we are terminating the TLS cert the server generates automatically on start up and are providing our own.
+-**context-create** - Create a CLI context for this bootstrapped server. The context name will be the value of this flag. If this is an empty string, a context will not be created
+Both server-tls and server-tls-skip-verify are important because we are terminating the TLS cert the server generates automatically on start up and are providing our own.
 ```
-waypoint server bootstrap -server-addr=waypoint-grpc.yourdomain.com:443 -server-tls-skip-verify
+waypoint server bootstrap -server-addr=waypoint-grpc.yourdomain.com:443 -server-tls-skip-verify -context-create="k8s-server"
 ```
 [Click here to see more command options available.](https://www.waypointproject.io/commands/server-run)
 
-### Context
-Now that the token has been generated from the bootstrap, you can create your context. For the context you will need your server address, token, and a chosen context name.  In the example below, we have named our context "k8s-server" but you can name your context whatever you would like. 
-You will see the additions of server-tls, server-tls-skip-verfiy in this command as well. 
-```
-waypoint context create -server-addr=waypoint-grpc.yourdomain.com:443 -server-auth-token="put_your_token_here" -server-tls -server-tls-skip-verify -set-default k8s-server
-```
 [Click here to see more command options available for context.](https://www.waypointproject.io/commands/context-create)
 
 ### Verify
