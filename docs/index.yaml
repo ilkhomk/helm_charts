@@ -3,21 +3,21 @@ entries:
   artemis:
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-11-18T20:07:35.805419-06:00"
+    created: "2021-01-29T23:11:23.25299128Z"
     description: A Helm chart for Kubernetes
-    digest: 71e255f6877ffe62a849638304a81588850314334c8f7c2842025e7f2e8258d7
+    digest: 1389f211927fe5d24331b69ada5226900505972fee624a13c18d699f39415931
     name: artemis
     urls:
-    - https://fuchicorp.github.io/helm_charts/artemis-0.1.0.tgz
+    - artemis-0.1.0.tgz
     version: 0.1.0
   consul:
   - apiVersion: v1
     appVersion: 1.5.3
-    created: "2020-11-18T20:07:35.806938-06:00"
+    created: "2021-01-29T23:11:23.255238863Z"
     description: Highly available and distributed service discovery and key-value
       store designed with support for the modern data center to make distributed systems
       and configuration easy.
-    digest: 94d18a11ced73cda2477c813fcecac276e9906eb7467f57df8261dd0219c03f5
+    digest: d48566715264547e513974305d2d7334553547fa2318d49483210a41ecb83b83
     home: https://github.com/hashicorp/consul
     icon: https://raw.githubusercontent.com/hashicorp/consul/bce3809dfca37b883828c3715b84143dd71c0f85/website/source/assets/images/favicons/android-chrome-512x512.png
     maintainers:
@@ -27,14 +27,14 @@ entries:
     sources:
     - https://github.com/kelseyhightower/consul-on-kubernetes
     urls:
-    - https://fuchicorp.github.io/helm_charts/consul-3.9.4.tgz
+    - consul-3.9.4.tgz
     version: 3.9.4
   elasticsearch:
   - apiVersion: v1
     appVersion: 7.8.0
-    created: "2020-11-18T20:07:35.810252-06:00"
+    created: "2021-01-29T23:11:23.259340177Z"
     description: Official Elastic helm chart for Elasticsearch
-    digest: a33e756cd7f764f4134ea7a9868084540164dd1cabf570413d0ad0ec07b5408c
+    digest: 4651d7b2a3b776708c9cd0222aa83396556b6c75b55a1a7c74225ad8e4b2d4b3
     home: https://github.com/elastic/helm-charts
     icon: https://helm.elastic.co/icons/elasticsearch.png
     maintainers:
@@ -44,14 +44,14 @@ entries:
     sources:
     - https://github.com/elastic/elasticsearch
     urls:
-    - https://fuchicorp.github.io/helm_charts/elasticsearch-7.8.0.tgz
+    - elasticsearch-7.8.0.tgz
     version: 7.8.0
   filebeat:
   - apiVersion: v1
     appVersion: 7.8.0
-    created: "2020-11-18T20:07:35.811687-06:00"
+    created: "2021-01-29T23:11:23.261097485Z"
     description: Official Elastic helm chart for Filebeat
-    digest: 0ce8e3488b8ceb55be51554b4482c478eb9d84718eded65d409a0f86c72fc553
+    digest: ede0c6a5f12b023034a0adb5adb8efe2bd659135cc694485e96876dfcefa1095
     home: https://github.com/elastic/helm-charts
     icon: https://helm.elastic.co/icons/beats.png
     maintainers:
@@ -61,16 +61,16 @@ entries:
     sources:
     - https://github.com/elastic/beats
     urls:
-    - https://fuchicorp.github.io/helm_charts/filebeat-7.8.0.tgz
+    - filebeat-7.8.0.tgz
     version: 7.8.0
   jenkins:
   - apiVersion: v1
     appVersion: lts
-    created: "2020-11-18T20:07:35.814341-06:00"
+    created: "2021-01-29T23:11:23.267165639Z"
     description: Open source continuous integration server. It supports multiple SCM
       tools including CVS, Subversion and Git. It can execute Apache Ant and Apache
       Maven-based projects as well as arbitrary scripts.
-    digest: 4a19f92200fcbe99e559ae1a8cb770beb8a0ee89bfe271409eb988288a296501
+    digest: 09b98fed7c8a414fb24f555624c2b45fbf4ca0c7b132a61fe557ba5f4ea774da
     home: https://jenkins.io/
     icon: https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png
     maintainers:
@@ -91,14 +91,14 @@ entries:
     - https://github.com/maorfr/kube-tasks
     - https://github.com/jenkinsci/configuration-as-code-plugin
     urls:
-    - https://fuchicorp.github.io/helm_charts/jenkins-1.10.0.tgz
+    - jenkins-1.10.0.tgz
     version: 1.10.0
   kibana:
   - apiVersion: v1
     appVersion: 7.7.0
-    created: "2020-11-18T20:07:35.815675-06:00"
+    created: "2021-01-29T23:11:23.269099623Z"
     description: Official Elastic helm chart for Kibana
-    digest: fa37473eb5b46523604717e92cb7aa35ebf6debfa8d0032e28ed153354216912
+    digest: c2c724e7158c767911db25dccb86c6f08a12b4acc35d0c095b1d1e310fbd3def
     home: https://github.com/elastic/helm-charts
     icon: https://helm.elastic.co/icons/kibana.png
     maintainers:
@@ -108,15 +108,15 @@ entries:
     sources:
     - https://github.com/elastic/kibana
     urls:
-    - https://fuchicorp.github.io/helm_charts/kibana-7.7.0.tgz
+    - kibana-7.7.0.tgz
     version: 7.7.0
   metallb:
   - apiVersion: v1
     appVersion: 0.8.1
-    created: "2020-11-18T20:07:35.817014-06:00"
+    created: "2021-01-29T23:11:23.270565743Z"
     description: MetalLB is a load-balancer implementation for bare metal Kubernetes
       clusters
-    digest: 6e6f74ec5b91e692a9c0d05fea3e03cd0c1f10b25e51b3ae5a2ff3aa7966084f
+    digest: 2eee0ad003f3d01587922b860d415b184e48dd369a21e8351e56d6a508ccb016
     home: https://metallb.universe.tf
     icon: https://metallb.universe.tf/images/logo.png
     keywords:
@@ -132,14 +132,14 @@ entries:
       name: danderson
     name: metallb
     urls:
-    - https://fuchicorp.github.io/helm_charts/metallb-0.12.0.tgz
+    - metallb-0.12.0.tgz
     version: 0.12.0
   metrics-server:
   - apiVersion: v1
     appVersion: 0.3.6
-    created: "2020-11-18T20:07:35.818027-06:00"
+    created: "2021-01-29T23:11:23.272080237Z"
     description: Metrics Server is a cluster-wide aggregator of resource usage data.
-    digest: 16726901500726ad0e86ae25a22c3c32ec818e16753af35f462f2c4942db10f3
+    digest: 0de60acdb8e24c6bb11256b6493dca664192e2c6af0978a3c6e75f70487e33a5
     home: https://github.com/kubernetes-incubator/metrics-server
     keywords:
     - metrics-server
@@ -152,25 +152,25 @@ entries:
     sources:
     - https://github.com/kubernetes-incubator/metrics-server
     urls:
-    - https://fuchicorp.github.io/helm_charts/metrics-server-2.8.9.tgz
+    - metrics-server-2.8.9.tgz
     version: 2.8.9
   nexus:
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-11-18T20:07:35.818648-06:00"
+    created: "2021-01-29T23:11:23.289242223Z"
     description: A Helm chart for Kubernetes
-    digest: c2d18abd2865cc01ef1e82dea07cf8517f4f74e0850f232f08b2f90a8dd6ac1c
+    digest: 88899612eff1b4e17208eb45ae9382744a0d3fb5f5a4eac132d19d5f5c4caf49
     name: nexus
     urls:
-    - https://fuchicorp.github.io/helm_charts/nexus-0.1.0.tgz
+    - nexus-0.1.0.tgz
     version: 0.1.0
   nfs-client-provisioner:
   - apiVersion: v1
     appVersion: 3.1.0
-    created: "2020-11-18T20:07:35.819781-06:00"
+    created: "2021-01-29T23:11:23.306435282Z"
     description: nfs-client is an automatic provisioner that used your *already configured*
       NFS server, automatically creating Persistent Volumes.
-    digest: b14e573fd7e579045afa5fbeb30c0876a101ef515d4042c83f722f51373490da
+    digest: ba47a9165e173986697756fdefd110669913a650a2c841890984bb6e270dd88d
     home: https://github.com/kubernetes-incubator/external-storage/tree/master/nfs-client
     keywords:
     - nfs
@@ -182,16 +182,15 @@ entries:
     sources:
     - https://github.com/kubernetes-incubator/external-storage/tree/master/nfs-client
     urls:
-    - https://fuchicorp.github.io/helm_charts/nfs-client-provisioner-1.2.8.tgz
+    - nfs-client-provisioner-1.2.8.tgz
     version: 1.2.8
   nginx-ingress:
   - apiVersion: v1
     appVersion: 0.26.2
-    created: "2020-11-18T20:07:35.821927-06:00"
+    created: "2021-01-29T23:11:23.320467733Z"
     description: An nginx Ingress controller that uses ConfigMap to store the nginx
       configuration.
-    digest: 44eb8121537f774f68f59fd1c231bacbfb8ad5a025a055747eb162459e4ebfa7
-    engine: gotpl
+    digest: d1ca2433c3273258d7bdf68bc87cbb7e92a6593f9417daf553ba8ce3fbf87042
     home: https://github.com/kubernetes/ingress-nginx
     icon: https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nginx_logo.svg/500px-Nginx_logo.svg.png
     keywords:
@@ -206,15 +205,14 @@ entries:
     sources:
     - https://github.com/kubernetes/ingress-nginx
     urls:
-    - https://fuchicorp.github.io/helm_charts/nginx-ingress-1.28.2.tgz
+    - nginx-ingress-1.28.2.tgz
     version: 1.28.2
   prometheus:
   - apiVersion: v1
     appVersion: 2.15.2
-    created: "2020-11-18T20:07:35.825154-06:00"
+    created: "2021-01-29T23:11:23.328969733Z"
     description: Prometheus is a monitoring system and time series database.
-    digest: ab4c58fdd5dc91eebd03d5795b7f7fe62fcacdc364da61b50e8d2477a9c46eed
-    engine: gotpl
+    digest: a24c74fd6b3cfefaa492862ee9fa94801ed2130f657b750a91787ef6f7a78683
     home: https://prometheus.io/
     icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
     maintainers:
@@ -227,18 +225,17 @@ entries:
     - https://github.com/prometheus/pushgateway
     - https://github.com/prometheus/node_exporter
     - https://github.com/kubernetes/kube-state-metrics
-    tillerVersion: '>=2.8.0'
     urls:
-    - https://fuchicorp.github.io/helm_charts/prometheus-10.0.1.tgz
+    - prometheus-10.0.1.tgz
     version: 10.0.1
   waypoint:
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-11-18T20:07:35.825787-06:00"
+    created: "2021-01-29T23:11:23.330374004Z"
     description: A Helm chart for Kubernetes
-    digest: ed917944c5e55870482fa7a8e8b1e9b840a75b528d6bb83aaed084c4c465b677
+    digest: 9eb8768851a87fabeab02551a2a73ca3d9127f1db7c2a31e0ca781bb154ce2af
     name: waypoint
     urls:
-    - https://fuchicorp.github.io/helm_charts/waypoint-0.1.0.tgz
+    - waypoint-0.1.0.tgz
     version: 0.1.0
-generated: "2020-11-18T20:07:35.804419-06:00"
+generated: "2021-01-29T23:11:23.251667791Z"
